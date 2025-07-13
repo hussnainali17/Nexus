@@ -1,58 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useState , useEffect } from 'react';
+import React from 'react'
+import { useLocation } from 'react-router-dom';
+import NavBar from '../NavBar';
 
+const Profile_view = () => {
+    const location = useLocation();
+    const { avatar, user, bio, investmentInterests, portfolioCompanies } = location.state || {};
+    const {name, email} = user || {};
 
-
-
-
-const Profile = () => {
-    const navigate = useNavigate();
-      const [investor, setInvestor] = useState(null);
-     
-    
-      useEffect(() => {
-        const fetchUserProfile = async () => {
-            const user=localStorage.getItem('user');
-            
-          try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`, { withCredentials: true });
-            
-            setInvestor(response.data);
-          } catch (error) {
-            console.error("Error fetching user profile:", error);
-          }
-        };
-    
-        fetchUserProfile();
-      }, []);
-
-      if (!investor) return <div>Loading...</div>;
-
-      // Defensive: fallback to empty string if any field is missing
-      const name = investor.name || "";
-      const email = investor.email || "";
-      const bio = investor.profile?.bio || "";
-      const avatar = investor.profile?.avatar || '/public/images/Avatar.png';
-      const investmentInterests = investor.profile?.investmentInterests || [];
-      const portfolioCompanies = investor.profile?.portfolioCompanies || [];
-
-        const logoutHandle = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`,{
-        withCredentials: true
-      });
-      console.log('Logout response:', res);
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
-
-      
-
-  return (
-    
+    return (
+        <div className='w-[95%] m-auto p-4 md:w-[90%] md:p-5'>
+     <NavBar props='Back' isProfilePage={true}/>
       <div className="w-full max-w-2xl bg-white p-8 flex flex-col gap-6">
         
         <div className="flex flex-col md:flex-row items-center gap-6">
@@ -90,11 +47,11 @@ const Profile = () => {
             </ul>
           </div>
         </div>
-        <button onClick={()=>{navigate('/investor/update_profile')}} className='bg-black text-white py-2 px-4 rounded '>Update Profile</button>
-        <button onClick={() => { localStorage.removeItem('user'); navigate('/login'); logoutHandle(); }} className="bg-red-500 text-white py-2 px-4 rounded">Logout</button>
+
+      </div>
       </div>
     
   );
 };
 
-export default Profile;
+export default Profile_view

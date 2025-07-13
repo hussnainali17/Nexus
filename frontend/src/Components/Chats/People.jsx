@@ -11,7 +11,7 @@ const People = () => {
     const userId = localStorage.getItem('user');
     useEffect(() => {
         if (!userId) return;
-        axios.get(`${import.meta.env.VITE_API_URL}/profile/${userId}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/profile/${userId}`, { withCredentials: true })
             .then(res => {
                 setUserProfile(res.data);
             });
@@ -19,10 +19,10 @@ const People = () => {
 
     useEffect(() => {
         if (!userId) return;
-        axios.get(`${import.meta.env.VITE_API_URL}/chat/getInteractedUsers/${userId}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/chat/getInteractedUsers/${userId}`, { withCredentials: true })
             .then(res => setUsers(res.data))
             .catch(() => setUsers([]));
-            console.log(users);
+            
     }, []);
     // Fetch users who have interacted with the current user            
     const filteredUsers = users.filter(u => u.name?.toLowerCase().includes(search.toLowerCase()));
@@ -55,7 +55,7 @@ const People = () => {
                         <div
                             key={user._id}
                             className='flex border border-gray-200 rounded-md items-center gap-4 p-3 hover:bg-gray-100 cursor-pointer transition-colors duration-150'
-                            onClick={() => navigate('/chat', { state: { receiver: { _id: user._id, name: user.name, imageUrl: user.imageUrl } } })}
+                            onClick={() => navigate('/chat', { state: { receiver: { _id: user._id, name: user.name, imageUrl: user.role === 'investor' ? user.profile?.avatar : user.profile?.entrepreneurImage } } })}
                         >
                             <img className='h-12 w-12 rounded-full object-cover' src={user.role === 'investor' ? user.profile?.avatar : user.profile?.entrepreneurImage || '/public/images/Global Data Network_ An intricate visual….jpeg'} alt='' />
                             <div>

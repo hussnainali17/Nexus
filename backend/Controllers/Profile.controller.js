@@ -26,7 +26,6 @@ module.exports.updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const updates = req.body;
-console.log('Updates:', updates);
     // Split user fields and profile fields
     const userFields = {};
     if (updates.name) userFields.name = updates.name;
@@ -79,7 +78,7 @@ module.exports.getAllInvestors = async (req, res) => {
     
   try {
     const investors = await Investor.find().populate('user', 'name email');
-    console.log('All Investors:', investors);
+  
     res.json(investors);
   } catch (err) {
     console.error(err);

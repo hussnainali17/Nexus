@@ -20,7 +20,7 @@ const Update_Profile = () => {
     const user = localStorage.getItem('user');
     const fetchInvestor = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`, { withCredentials: true });
         const data = response.data;
         
         setForm({
@@ -29,9 +29,9 @@ const Update_Profile = () => {
           bio: data.profile?.bio || '',
           investmentInterests: data.profile?.investmentInterests || [],
           portfolioCompanies: data.profile?.portfolioCompanies || [],
-          avatar: data.profile?.avatar || '/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg',
+          avatar: data.profile?.avatar || '/public/images/Avatar.png',
         });
-        setAvatar(data.profile?.avatar || '/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg');
+        setAvatar(data.profile?.avatar || '/public/images/Avatar.png');
       } catch (error) {
         console.error('Error fetching investor profile:', error);
       }
@@ -52,7 +52,7 @@ const Update_Profile = () => {
     const user = localStorage.getItem('user');
     const payload = { ...form, avatar };
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/profile/${user}`, payload);
+      await axios.post(`${import.meta.env.VITE_API_URL}/profile/${user}`, payload, { withCredentials: true });
       alert('Profile updated!');
       //navigate('/investor/profile');
     } catch (error) {

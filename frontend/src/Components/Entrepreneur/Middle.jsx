@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../NavBar';
 
 const Middle = () => {
   const [requests, setRequests] = useState([]);
@@ -14,9 +15,8 @@ const Middle = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/request/view/${entrepreneurId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/request/view/${entrepreneurId}`,{ withCredentials: true });
         setRequests(res.data);
-        console.log('Requests:', res.data);
       } catch (err) {
         setError('Failed to fetch requests');
       } finally {
@@ -28,7 +28,7 @@ const Middle = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL}/request/update/${id}`, { status: newStatus });
+      await axios.patch(`${import.meta.env.VITE_API_URL}/request/update/${id}`, { status: newStatus },{withCredentials: true});
       setRequests(prev => prev.map(req => req._id === id ? { ...req, status: newStatus } : req));
     } catch (err) {
       alert('Failed to update status');
@@ -52,13 +52,16 @@ const Middle = () => {
   if (error) return <div>{error}</div>;
 
   return (
+  
+     
     <div className='flex flex-col mt-5'>
       {requests.length === 0 && <div className="text-gray-500 text-center">No collaboration requests.</div>}
+      <div className='font-bold text-lg mb-2'>Collaboration Requests</div>
       {requests.map((req) => (
-        <div key={req._id} className="bg-white shadow-md rounded-xl p-5 mb-4 w-full">
+        <div key={req._id}  className="bg-white shadow-md rounded-xl p-5 mb-4 w-full">
           <div className="flex justify-between items-start">
             {/* Left side: Image + Info */}
-            <div className="flex items-start gap-4">
+            <div onClick={()=>{navigate('/invest_ProfileView', { state: { ...req.investorId } })}} className="flex items-start gap-4">
               <img
                 src={req.investorId.avatar || '/images/Avatar.png'}
                 alt="Investor Avatar"
@@ -118,6 +121,9 @@ const Middle = () => {
           </div>
         </div>
       ))}
+
+
+    
     </div>
   );
 };

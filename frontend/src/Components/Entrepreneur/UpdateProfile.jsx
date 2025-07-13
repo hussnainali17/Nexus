@@ -15,14 +15,14 @@ const UpdateProfile = () => {
     pitchDeckLink: ''
   });
   const [businessImage, setBusinessImage] = useState('/public/images/charles-forerunner-3fPXt37X6UQ-unsplash.jpg');
-  const [entrepreneurImage, setEntrepreneurImage] = useState('/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg');
+  const [entrepreneurImage, setEntrepreneurImage] = useState('/public/images/Avatar.png');
   const [showBusinessUrlInput, setShowBusinessUrlInput] = useState(false);
   const [showEntrepreneurUrlInput, setShowEntrepreneurUrlInput] = useState(false);
 
   const user = localStorage.getItem('user');
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`, { withCredentials: true })
       .then(response => {
         const data = response.data;
         setForm({
@@ -34,10 +34,10 @@ const UpdateProfile = () => {
           fundingNeed: data.profile?.fundingNeed || '',
           pitchDeckLink: data.profile?.pitchDeckLink || '',
           businessImage: data.profile?.businessImage || '/public/images/charles-forerunner-3fPXt37X6UQ-unsplash.jpg',
-          entrepreneurImage: data.profile?.entrepreneurImage || '/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg'
+          entrepreneurImage: data.profile?.entrepreneurImage || '/public/images/Avatar.png'
         });
         setBusinessImage(data.profile?.businessImage || '/public/images/charles-forerunner-3fPXt37X6UQ-unsplash.jpg');
-        setEntrepreneurImage(data.profile?.entrepreneurImage || '/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg');
+        setEntrepreneurImage(data.profile?.entrepreneurImage || '/public/images/Avatar.png');
       })
       .catch(error => {
         console.error('Error fetching profile:', error);
@@ -51,7 +51,7 @@ const UpdateProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = { ...form, businessImage, entrepreneurImage };
-    axios.post(`${import.meta.env.VITE_API_URL}/profile/${user}`, payload)
+    axios.post(`${import.meta.env.VITE_API_URL}/profile/${user}`, payload, { withCredentials: true })
       .then(() => {
         alert('Profile updated!');
       })

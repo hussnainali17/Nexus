@@ -7,10 +7,10 @@ const { authUser } = require('../middlewares/auth.middleware');
 
 
 
-router.get('/allentrepreneurs', profileController.getAllEntrepreneurs);
-router.get('/allinvestors', profileController.getAllInvestors);
+router.get('/allentrepreneurs',authUser, profileController.getAllEntrepreneurs);
+router.get('/allinvestors',authUser, profileController.getAllInvestors);
 
-router.get('/:userId',profileController.getProfile);
+router.get('/:userId',authUser, profileController.getProfile);
 
 
 router.post('/:userId',[
@@ -19,7 +19,7 @@ router.post('/:userId',[
     body('startupDescription').optional().isLength({ min: 10 }).withMessage('Startup description must be at least 10 characters long'),
     body('fundingNeed').optional().isNumeric().withMessage('Funding need must be a number'),
     body('pitchDeckLink').optional().isURL().withMessage('Pitch deck link must be a valid URL')
-],profileController.updateProfile);
+],authUser,profileController.updateProfile);
 
 
 

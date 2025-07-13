@@ -15,7 +15,7 @@ const Profile = () => {
         const user=localStorage.getItem('user');
         
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile/${user}`,{ withCredentials: true });
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -36,11 +36,11 @@ const Profile = () => {
   const name = user.name || '';
   const email = user.email || '';
   const businessImage = profile.businessImage || '/public/images/charles-forerunner-3fPXt37X6UQ-unsplash.jpg';
-  const entrepreneurImage = profile.entrepreneurImage || '/public/images/bernd-dittrich-pYlBAu3de0w-unsplash.jpg';
+  const entrepreneurImage = profile.entrepreneurImage || '/public/images/Avatar.png';
 
   const logoutHandle = async () => {
     try {
-      await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`);
+      await axios.get(`${import.meta.env.VITE_API_URL}/users/logout`, { withCredentials: true });
     } catch (error) {
       console.error("Error logging out:", error);
     }

@@ -5,9 +5,7 @@ const MiddleSec = () => {
   const navigate = useNavigate();
   return (
     <div className='h-full flex flex-col ' >
-        <div className='md:h-150 hidden md:block w-full'>
-        <img className='  object-cover w-full' src="\public\images\empresários apontam para planos de crescimento de negócios bem-sucedidos, escada de sucesso, planejamento de ação e metas de negócios de longo prazo_.jpeg" alt="" />
-        </div>
+        
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 px-4 md:px-12 py-8'>
             <div className='flex flex-col items-center text-center' onClick={()=>{navigate('/signup')}}>
                 <img className='w-60 h-60 object-cover rounded-xl mb-4 shadow-lg' src="/public/images/a5fee5b6-917e-49c5-9133-e2907d6dbc11.jpeg" alt="" />

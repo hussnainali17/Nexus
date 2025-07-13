@@ -26,7 +26,9 @@ try {
 //   const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, user, {
 //     withCredentials: true // ✅ This tells browser to store cookie
 //   });
-const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, user);
+const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, user,{
+  withCredentials: true, // This tells the browser to store cookies
+});
 
   if (response.status === 200) {
     const data = response.data;
